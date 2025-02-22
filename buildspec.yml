@@ -1,6 +1,11 @@
 version: 0.2
 
 phases:
+  pre_build:
+    commands:
+      - echo "Navigating to project directory..."
+      - cd /codebuild/output/src3896582654/src/github.com/faiqahAzman/tgp-frontend
+
   install:
     commands:
       - echo "Installing dependencies..."
@@ -15,9 +20,8 @@ phases:
     commands:
       - echo "Uploading build artifacts to S3..."
       - aws s3 sync build/ s3://paynet-tgp-bucket-1/tgp-frontend-build/tgp-frontend-pipeline --delete
-    
 
 artifacts:
   files:
-    - '**/*'  # Include all files in the repository
+    - '**/*'
   base-directory: build
