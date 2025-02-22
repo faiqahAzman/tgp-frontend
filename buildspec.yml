@@ -15,8 +15,7 @@ phases:
     commands:
       - echo "Uploading build artifacts to S3..."
       - aws s3 sync build/ s3://paynet-tgp-bucket-1/tgp-frontend-build/tgp-frontend-pipeline --delete
-      - echo "Invalidating CloudFront cache (if using CloudFront)..."
-      # - aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths '/*'  # Replace with your CloudFront distribution ID
+    
 
 artifacts:
   files:
