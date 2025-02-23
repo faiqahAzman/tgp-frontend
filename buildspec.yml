@@ -17,9 +17,9 @@ phases:
   post_build:
     commands:
       - echo "Uploading build artifacts to S3..."
-      - aws s3 sync build/ s3://paynet-tgp-bucket-1/tgp-frontend-build/tgp-frontend-pipeline --delete
+      - aws s3 sync dist/ s3://paynet-tgp-bucket-1/tgp-frontend-build/tgp-frontend-pipeline --delete
 
 artifacts:
   files:
     - '**/*'
-  base-directory: build
+  base-directory: dist
