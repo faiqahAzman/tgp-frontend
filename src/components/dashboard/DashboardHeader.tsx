@@ -2,7 +2,7 @@ export const DashboardHeader = () => {
   return (
     <header className="bg-white shadow-[0px_4px_148px_rgba(0,0,0,0.02)] min-h-56 w-full pt-10 pb-[17px] px-5">
       <nav className="flex w-full items-stretch gap-[40px_100px] font-medium justify-between flex-wrap">
-        <div className="flex items-center gap-2 text-base text-white h-full w-52 px-4 py-3 rounded-lg">
+        <div className="flex items-center gap-2 text-base text-white h-full w-52 px-4 py-3 rounded-lg bg-gradient-to-r from-[#1D7ABB] via-[#4BB5FF] to-[#4BB5FF]">
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/58fbcb3dff7b4e6d972b673ca4440ed0/72976518be6a462161a6c0daa6303de24a5c4154855ed38433015087a81d8d06?placeholderIfAbsent=true"
@@ -55,7 +55,7 @@ export const DashboardHeader = () => {
 
       <div className="flex w-full items-center gap-5 justify-center flex-wrap mt-[45px]">
         <div className="self-stretch min-w-60 flex-1 shrink basis-[0%] my-auto">
-          <h1 className="text-[40px] font-semibold tracking-[-0.8px]">
+          <h1 className="text-[40px] font-semibold tracking-[-0.8px] bg-gradient-to-r from-[#01B3DB] via-[#207EC0] to-[#01ED71] to-80% bg-clip-text text-transparent">
             MayNet Microservices Dashboard
           </h1>
           <p className="text-[rgba(184,185,189,1)] text-xl font-normal mt-1">
@@ -64,24 +64,21 @@ export const DashboardHeader = () => {
         </div>
 
         <div className="self-stretch min-w-60 w-64 my-auto">
-          <div className="items-stretch border-[color:var(--Gray-Gray-200,#E2E8F0)] bg-white flex min-h-10 w-full overflow-hidden rounded-[15px] border-[0.5px] border-solid">
-            <div className="flex items-center overflow-hidden justify-center h-full w-[38px]">
-              <div className="self-stretch flex min-h-5 items-center gap-[5px] overflow-hidden my-auto px-1.5 py-[3px]">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/58fbcb3dff7b4e6d972b673ca4440ed0/4258f9c818b9b70a972748ec5dbb3d32d070cfe80895c2edf70c67277e2ebd4d?placeholderIfAbsent=true"
-                  className="aspect-[1] object-contain w-[15px] self-stretch my-auto"
-                  alt="Search icon"
-                />
-              </div>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here..."
-              className="flex flex-col overflow-hidden items-stretch text-xs text-[#A0AEC0] font-normal justify-center my-auto outline-none"
-            />
-          </div>
-        </div>
+  <div className="flex items-center border border-gray-200 bg-white rounded-[15px] px-3 py-2 w-full">
+    <img
+      loading="lazy"
+      src="https://cdn.builder.io/api/v1/image/assets/58fbcb3dff7b4e6d972b673ca4440ed0/4258f9c818b9b70a972748ec5dbb3d32d070cfe80895c2edf70c67277e2ebd4d?placeholderIfAbsent=true"
+      className="w-[15px] h-[15px] object-contain"
+      alt="Search icon"
+    />
+    <input
+      type="text"
+      placeholder="Search here..."
+      className="ml-2 flex-1 text-xs text-[#A0AEC0] outline-none bg-transparent"
+    />
+  </div>
+</div>
+
       </div>
     </header>
   );

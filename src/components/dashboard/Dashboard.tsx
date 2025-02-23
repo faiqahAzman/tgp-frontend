@@ -1,18 +1,18 @@
 import { DashboardHeader } from "./DashboardHeader";
-import { FinancialCard } from "./FinancialCard";
+import { APITile } from "./APITile";
 import { EmploymentSection } from "./EmploymentSection";
 import { ProgressBar } from "./ProgressBar";
 
 export const Dashboard = () => {
   return (
     <div className="bg-white shadow-[0px_38px_200px_rgba(0,0,0,0.1)] flex flex-col overflow-hidden p-[60px] rounded-3xl max-md:px-5">
-      <main className="bg-[rgba(252,251,252,1)] self-stretch h-[950px] w-full max-w-[1160px] overflow-hidden pb-[72px] max-md:max-w-full">
+      <main className="bg-[rgba(252,251,252,1)] self-stretch min-h-screen w-full max-w-[1160px] overflow-auto pb-[72px] max-md:max-w-full">
         <DashboardHeader />
 
         <div className="flex h-[837px] w-full justify-center flex-wrap mt-[30px] max-md:max-w-full">
           {/* Left Column */}
-          <div className="min-w-60 min-h-[1086px] w-[463px] pl-[15px] max-md:max-w-full">
-            <FinancialCard
+          <div className="min-w-60 min-h-[685px] w-[463px] pl-[15px] max-md:max-w-full">
+            <APITile
               title="Financial Inclusion"
               className="min-h-[150px]"
             >
@@ -23,9 +23,9 @@ export const Dashboard = () => {
                 alt="Financial inclusion chart"
               />
               <ProgressBar description="Account Ownership (% of population ages 15+)" />
-            </FinancialCard>
+            </APITile>
 
-            <FinancialCard
+            <APITile
               title="Digital Payments"
               className="min-h-[150px] mt-[15px]"
             >
@@ -36,9 +36,9 @@ export const Dashboard = () => {
                 alt="Digital payments chart"
               />
               <ProgressBar description="Made or received a digital payment (% age 15+)" />
-            </FinancialCard>
+            </APITile>
 
-            <FinancialCard
+            <APITile
               title="Government Debt & Trade"
               className="min-h-[314px] mt-[15px]"
               darkMode={true}
@@ -49,7 +49,7 @@ export const Dashboard = () => {
                 className="aspect-[1.73] object-contain w-full flex-1 mt-[18px]"
                 alt="Government debt chart"
               />
-            </FinancialCard>
+            </APITile>
           </div>
 
           {/* Right Column */}
@@ -60,7 +60,7 @@ export const Dashboard = () => {
               </div>
             </div>
 
-            <FinancialCard
+            <APITile
               title="Remittances"
               className="min-h-[315px] mt-[15px]"
             >
@@ -75,7 +75,7 @@ export const Dashboard = () => {
                   <ProgressBar description="Sent or received domestic remittances (% age 15+)" />
                 </div>
               </div>
-            </FinancialCard>
+            </APITile>
           </div>
         </div>
       </main>

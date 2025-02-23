@@ -1,18 +1,18 @@
 import { ReactNode } from "react";
 
-interface FinancialCardProps {
+interface APITileProps {
   title: string;
   children: ReactNode;
   className?: string;
   darkMode?: boolean;
 }
 
-export const FinancialCard = ({
+export const APITile = ({
   title,
   children,
   className = "",
   darkMode = false,
-}: FinancialCardProps) => {
+}: APITileProps) => {
   const baseClasses = "w-full flex-1 p-4 rounded-xl";
   const cardClasses = darkMode
     ? `bg-[rgba(56,56,56,1)] text-white ${baseClasses}`
