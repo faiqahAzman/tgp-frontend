@@ -2,8 +2,19 @@ import { DashboardHeader } from "./DashboardHeader";
 import { APITile } from "./APITile";
 import { EmploymentSection } from "./EmploymentSection";
 import { ProgressBar } from "./ProgressBar";
+import ChartComponent from "../ChartComponent";
+import React, { useState } from 'react';
+import ChartWithSelector from "../ChartWithSelector";
 
 export const Dashboard = () => {
+  const [chartType, setChartType] = useState<'line' | 'bar' | 'pie'>('line');
+  const apiUrl = 'https://api.worldbank.org/v2/country/MYS/indicator/FX.OWN.TOTL.ZS?date=2015:2020&format=json';
+  const apiUrl2 = 'https://api.worldbank.org/v2/country/MYS/indicator/IT.NET.USER.ZS?date=2015:2020&format=json';
+  const apiUrl3 = 'https://api.worldbank.org/v2/country/MYS/indicator/GC.DOD.TOTL.GD.ZS?date=2015:2020&format=json';
+  const apiUrl4 = 'https://api.worldbank.org/v2/country/MYS/indicator/SI.RMT.COST.OB.ZS?date=2015:2020&format=json';
+  const unemploymentApiUrl = 'https://api.worldbank.org/v2/country/MYS/indicator/SL.UEM.TOTL.NE.ZS?date=2023&format=json';
+  const employmentRatioApiUrl = 'https://api.worldbank.org/v2/country/MYS/indicator/SL.EMP.TOTL.SP.ZS?date=2023&format=json';
+
   return (
     <div className="bg-white shadow-[0px_38px_200px_rgba(0,0,0,0.1)] flex flex-col overflow-hidden p-[60px] rounded-3xl max-md:px-5">
       <main className="bg-[rgba(252,251,252,1)] self-stretch min-h-screen w-full max-w-[1160px] overflow-auto pb-[72px] max-md:max-w-full">
@@ -16,38 +27,35 @@ export const Dashboard = () => {
               title="Financial Inclusion"
               className="min-h-[150px]"
             >
-              <img
-                loading="lazy"
-                srcSet="https://cdn.builder.io/api/v1/image/assets/58fbcb3dff7b4e6d972b673ca4440ed0/dbf6346aed50cee5b6ac098dc30500e5f5a59233f64a624debabef1490b50b6b?placeholderIfAbsent=true&width=100 100w"
-                className="aspect-[5.71] object-contain w-[251px] max-w-full mt-2.5"
-                alt="Financial inclusion chart"
+
+
+              <ChartWithSelector
+                apiUrl={apiUrl}
+                label="Account ownership (% of population ages 15+)"
               />
-              <ProgressBar description="Account Ownership (% of population ages 15+)" />
+              {/* <ProgressBar description="Account Ownership (% of population ages 15+)" /> */}
             </APITile>
 
             <APITile
               title="Digital Payments"
               className="min-h-[150px] mt-[15px]"
             >
-              <img
-                loading="lazy"
-                srcSet="https://cdn.builder.io/api/v1/image/assets/58fbcb3dff7b4e6d972b673ca4440ed0/dbf6346aed50cee5b6ac098dc30500e5f5a59233f64a624debabef1490b50b6b?placeholderIfAbsent=true&width=100 100w"
-                className="aspect-[5.71] object-contain w-[251px] max-w-full mt-2.5"
-                alt="Digital payments chart"
+
+              <ChartWithSelector
+                apiUrl={apiUrl2}
+                label="Made or received a digital payment (% age 15+)"
               />
-              <ProgressBar description="Made or received a digital payment (% age 15+)" />
+              {/* <ProgressBar description="Made or received a digital payment (% age 15+)" /> */}
             </APITile>
 
             <APITile
               title="Government Debt & Trade"
               className="min-h-[314px] mt-[15px]"
-              darkMode={true}
+
             >
-              <img
-                loading="lazy"
-                srcSet="https://cdn.builder.io/api/v1/image/assets/58fbcb3dff7b4e6d972b673ca4440ed0/191ad2f3cbd26d66e8de2e86ad0be228668a517523e7a2d53de234739fdb9429?placeholderIfAbsent=true&width=100 100w"
-                className="aspect-[1.73] object-contain w-full flex-1 mt-[18px]"
-                alt="Government debt chart"
+              <ChartWithSelector
+                apiUrl={apiUrl3}
+                label="Central government debt, total (% of GDP)"
               />
             </APITile>
           </div>
@@ -66,13 +74,11 @@ export const Dashboard = () => {
             >
               <div className="flex w-full items-stretch gap-2 flex-1 h-full mt-2.5">
                 <div className="min-w-60 w-full flex-1 shrink basis-[0%]">
-                  <img
-                    loading="lazy"
-                    srcSet="https://cdn.builder.io/api/v1/image/assets/58fbcb3dff7b4e6d972b673ca4440ed0/a8782b444b260f2f8278f614ac9fab809168ef1b148fee6f6111f4ec6b85398d?placeholderIfAbsent=true&width=100 100w"
-                    className="aspect-[3.23] object-contain w-full gap-2.5 flex-1 py-2.5"
-                    alt="Remittances chart"
+                  <ChartWithSelector
+                    apiUrl={apiUrl4}
+                    label="Sent or received domestic remittances (% age 15+)"
                   />
-                  <ProgressBar description="Sent or received domestic remittances (% age 15+)" />
+                  {/* <ProgressBar description="Sent or received domestic remittances (% age 15+)" /> */}
                 </div>
               </div>
             </APITile>
