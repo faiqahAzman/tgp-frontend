@@ -3,7 +3,57 @@ import { APITile } from "./APITile";
 import { EmploymentSection } from "./EmploymentSection";
 import { ProgressBar } from "./ProgressBar";
 
+//Imports for data visualisations ------------------------------
+import React, { useState, useEffect } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
 export const Dashboard = () => {
+
+  //Step 1: create State Var and assume data is stored here -------------------------------
+  const [chartData, setChartData] = useState<any[]>([]); //for GDP data_APITile3
+  const [financialData, setFinancialData] = useState<number | null>(null); //for Financial Inclusion data_APITile1
+
+  //Step 2: Fetch data from worldbankAPI endpoint----------------
+
+  //For Financial Inclusion_API1
+  useEffect(() => {
+    fetch("https://api.worldbank.org/v2/country/MY/indicator/FX.OWN.TOTL.ZS?format=json") // Replace with your API endpoint
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Financial Inclusion Data:", data); // Log the response
+        setFinancialData(data.value); // Assuming the API returns a value like { value: 12345 }
+      })
+      .catch((error) => {
+        console.error("Error fetching financial data:", error);
+      });
+  }, []);
+  
+  //For GDP_API3
+  useEffect(() => {
+    fetch("http://api.worldbank.org/v2/country/US/indicator/NY.GDP.MKTP.CD?format=json")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API Response:", data); // Log the full response
+        if (data[1]) {
+          const processedData = data[1].map((item: any) => ({
+            year: item.date,
+            gdp: item.value,
+          }));
+          console.log("Processed Data:", processedData); // Log processed data
+          setChartData(processedData);
+        } else {
+          console.error("Unexpected API response structure:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log("Updated Chart Data:", chartData); // Log the state after update
+  }, [chartData]);
+
   return (
     <div className="bg-white shadow-[0px_38px_200px_rgba(0,0,0,0.1)] flex flex-col overflow-hidden p-[60px] rounded-3xl max-md:px-5">
       <main className="bg-[rgba(252,251,252,1)] self-stretch min-h-screen w-full max-w-[1160px] overflow-auto pb-[72px] max-md:max-w-full">
@@ -43,12 +93,23 @@ export const Dashboard = () => {
               className="min-h-[314px] mt-[15px]"
               darkMode={true}
             >
-              <img
-                loading="lazy"
-                srcSet="https://cdn.builder.io/api/v1/image/assets/58fbcb3dff7b4e6d972b673ca4440ed0/191ad2f3cbd26d66e8de2e86ad0be228668a517523e7a2d53de234739fdb9429?placeholderIfAbsent=true&width=100 100w"
-                className="aspect-[1.73] object-contain w-full flex-1 mt-[18px]"
-                alt="Government debt chart"
-              />
+              {chartData.length > 0 ? (
+                <ResponsiveContainer width="100%" height={250} style={{ margin: "0 auto", padding: "10px" }}>
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="gdp" stroke="#8884d8" />
+                  </LineChart>
+                </ResponsiveContainer>
+              ) : (
+                <div>
+                  <p>Loading data...</p>
+                  <pre>{JSON.stringify(chartData, null, 2)}</pre> {/* Display raw data for debugging */}
+                </div>
+              )}
             </APITile>
           </div>
 
