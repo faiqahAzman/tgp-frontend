@@ -40,7 +40,7 @@ def generate_short_indicator(indicator):
 
     # General rule: Keep main keywords and abbreviate common terms
     words = indicator.split()
-    short_indicator = " ".join(words[:3])  # Take the first three words as a default
+    short_indicator = " ".join(words[:4])  # Take the first three words as a default
     
     return short_indicator
 
@@ -56,4 +56,4 @@ findex_df = findex_df[selected_columns]
 cleaned_file_path = "Cleaned_FINDEX.csv"
 findex_df.to_csv(cleaned_file_path, index=False)
 
-print("FINDEX data cleaning completed. Cleaned file is saved as 'Cleaned_FINDEX.csv'.")
+print("FINDEX data cleaning completed. Cleaned file is saved as 'Cleaned_FINDEX.csv'")
