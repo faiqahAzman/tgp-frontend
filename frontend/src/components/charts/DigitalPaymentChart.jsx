@@ -53,7 +53,7 @@ const DigitalPaymentsChart = () => {
           header: true,
           dynamicTyping: true,
           complete: (result) => {
-            const data = result.data.filter(row => row["Short Indicator"] === "made or received");
+            const data = result.data.filter(row => row["Short Indicator"] === "made or received a");
             setFullData(data);
             
             const uniqueCountries = [...new Set(data.map(row => row.Country))].filter(Boolean);

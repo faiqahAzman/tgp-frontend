@@ -19,7 +19,10 @@ const AccountOwnershipChart = () => {
       return;
     }
   
-    const countryData = data.filter((row) => row.Country === country && row["Short Indicator"]);
+    // Filter data by country and specific short indicator
+    const countryData = data.filter((row) => 
+      row.Country === country && row["Short Indicator"] === "Account ownership at a financial institution or with a mobile-money-service provider"
+    );
   
     if (countryData.length === 0) {
       setError(`No data found for ${country}`);
@@ -62,6 +65,7 @@ const AccountOwnershipChart = () => {
   
     setChartData({ labels: years, datasets });
   }, []);
+  
 
   useEffect(() => {
     fetch("/Cleaned_WDIEXCEL.csv")
