@@ -18,20 +18,20 @@ const AccountOwnershipChart = () => {
       setChartData(null);
       return;
     }
-  
+
     // Filter data by country and specific short indicator
     const countryData = data.filter((row) => 
       row.Country === country && row["Short Indicator"] === "Account ownership at a financial institution or with a mobile-money-service provider"
     );
-  
+
     if (countryData.length === 0) {
       setError(`No data found for ${country}`);
       setChartData(null);
       return;
     }
-  
+
     setError(null);
-  
+
     const transformedData = {};
     countryData.forEach((row) => {
       const indicator = row["Short Indicator"];
@@ -44,14 +44,14 @@ const AccountOwnershipChart = () => {
         }
       });
     });
-  
+
     const indicators = Object.keys(transformedData);
     if (indicators.length === 0) {
       setError(`No data found for ${country}`);
       setChartData(null);
       return;
     }
-  
+
     const years = Object.keys(transformedData[indicators[0]]);
     const datasets = indicators.map((indicator) => ({
       label: indicator,
@@ -61,11 +61,11 @@ const AccountOwnershipChart = () => {
       pointRadius: 5,
       borderWidth: 3,
       fill: false,
+      tension: 0.4,  // Smooth the line
     }));
-  
+
     setChartData({ labels: years, datasets });
   }, []);
-  
 
   useEffect(() => {
     fetch("/Cleaned_WDIEXCEL.csv")
@@ -133,10 +133,39 @@ const AccountOwnershipChart = () => {
             data={chartData} 
             options={{
               responsive: true,
-              plugins: { legend: { position: 'top', labels: { boxWidth: 15, font: { size: 14 } } } },
+              plugins: { 
+                legend: { 
+                  position: 'top', 
+                  labels: { boxWidth: 15, font: { size: 14 } } 
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (tooltipItem) => {
+                      return `Year: ${tooltipItem.label}, Value: ${tooltipItem.raw}%`;
+                    }
+                  }
+                }
+              },
               scales: {
-                x: { title: { display: true, text: 'Year', font: { size: 16, weight: 'bold' } } },
-                y: { title: { display: true, text: 'Percentage(%)', font: { size: 16, weight: 'bold' } } }
+                x: { 
+                  title: { 
+                    display: true, 
+                    text: 'Year', 
+                    font: { size: 16, weight: 'bold' } 
+                  }
+                },
+                y: { 
+                  title: { 
+                    display: true, 
+                    text: 'Percentage (%)', 
+                    font: { size: 16, weight: 'bold' } 
+                  },
+                  min: 0,
+                  max: 100
+                }
+              },
+              elements: {
+                point: { radius: 5 }
               }
             }} 
           />

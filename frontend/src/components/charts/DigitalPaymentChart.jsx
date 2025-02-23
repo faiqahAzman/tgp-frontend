@@ -9,10 +9,25 @@ const DigitalPaymentsChart = () => {
   const [chartData, setChartData] = useState(null);
   const [error, setError] = useState(null);
   const [countries, setCountries] = useState([]);
+  const [indicators, setIndicators] = useState([
+    "Female % 15+",
+    "Labor Force % 15+",
+    "Poorest 40% 15+",
+    "Richest 60% 15+",
+    "Male % 15+",
+    "Older % 25+",
+    "Out of Labor Force % 15+",
+    "Primary Education % 15+",
+    "Rural % 15+",
+    "Secondary Education % 15+",
+    "Urban % 15+",
+    "Young % 15-24",
+  ]);
   const [selectedCountry, setSelectedCountry] = useState("Malaysia");
+  const [selectedIndicator, setSelectedIndicator] = useState("Female % 15+");
   const [fullData, setFullData] = useState([]);
 
-  const processChartData = useCallback((data, country) => {
+  const processChartData = useCallback((data, country, indicator) => {
     if (!data || data.length === 0) {
       setError(`No data available for ${country}`);
       setChartData(null);
@@ -27,15 +42,16 @@ const DigitalPaymentsChart = () => {
     }
 
     setError(null);
-    
+
     const years = ["2011", "2014", "2017", "2021", "2022"];
+    const indicatorColumn = `Digital Payments (${indicator})`;
     const values = years.map(year => countryData[year] || 0);
 
     setChartData({
       labels: years,
       datasets: [
         {
-          label: "Made or Received A Digital Payment",
+          label: `Made or Received A Digital Payment (${indicator})`,
           data: values,
           borderColor: "#36A2EB",
           backgroundColor: "rgba(54, 162, 235, 0.2)",
@@ -55,11 +71,11 @@ const DigitalPaymentsChart = () => {
           complete: (result) => {
             const data = result.data.filter(row => row["Short Indicator"] === "made or received a");
             setFullData(data);
-            
+
             const uniqueCountries = [...new Set(data.map(row => row.Country))].filter(Boolean);
             setCountries(uniqueCountries);
-            
-            processChartData(data, selectedCountry);
+
+            processChartData(data, selectedCountry, selectedIndicator);
           },
           error: (parseError) => {
             setError(`Error parsing CSV: ${parseError.message}`);
@@ -69,14 +85,14 @@ const DigitalPaymentsChart = () => {
       .catch(fetchError => {
         setError(`Error fetching CSV: ${fetchError.message}`);
       });
-  }, [processChartData, selectedCountry]);
+  }, [processChartData, selectedCountry, selectedIndicator]);
 
   return (
     <div className="max-w-lg mx-auto p-4 bg-white shadow-lg rounded-xl border border-gray-200">
       <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">📈 Digital Payments (% 15+)</h2>
-      
+
       {error && <p className="text-red-500 font-medium text-center">{error}</p>}
-      
+
       <div className="flex justify-center mb-4">
         <label className="font-medium text-md mr-2">Select Country:</label>
         <select
@@ -89,7 +105,22 @@ const DigitalPaymentsChart = () => {
           ))}
         </select>
       </div>
-      
+
+      <div className="flex justify-center mb-4">
+        <label className="font-medium text-md mr-2">Select Indicator:</label>
+        <select
+          className="border rounded-lg px-3 py-1 bg-gray-50 focus:ring-2 focus:ring-blue-300"
+          onChange={(e) => setSelectedIndicator(e.target.value)}
+          value={selectedIndicator}
+        >
+          {indicators.map((indicator) => (
+            <option key={indicator} value={indicator}>
+              {indicator}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {chartData ? (
         <div className="p-3 bg-gray-50 rounded-lg shadow-inner">
           <Line
